@@ -1,0 +1,18 @@
+{%- comment -%} Address inputs for customer_address forms. Accepts: form, prefix {%- endcomment -%}
+<div class="form-grid form-grid--2">
+  <div class="field"><label for="a-first-{{ prefix }}">{{ 'customer.first_name' | t }}</label><input id="a-first-{{ prefix }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></div>
+  <div class="field"><label for="a-last-{{ prefix }}">{{ 'customer.last_name' | t }}</label><input id="a-last-{{ prefix }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></div>
+</div>
+<div class="field"><label for="a-addr-{{ prefix }}">{{ 'customer.address1' | t }}</label><input id="a-addr-{{ prefix }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></div>
+<div class="form-grid form-grid--2">
+  <div class="field"><label for="a-city-{{ prefix }}">{{ 'customer.city' | t }}</label><input id="a-city-{{ prefix }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></div>
+  <div class="field"><label for="a-zip-{{ prefix }}">{{ 'customer.zip' | t }}</label><input id="a-zip-{{ prefix }}" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></div>
+</div>
+<div class="form-grid form-grid--2">
+  <div class="field">
+    <label for="a-country-{{ prefix }}">{{ 'customer.country' | t }}</label>
+    <select id="a-country-{{ prefix }}" name="address[country]" autocomplete="country">{{ all_country_option_tags }}</select>
+  </div>
+  <div class="field"><label for="a-phone-{{ prefix }}">{{ 'contact.phone' | t }}</label><input id="a-phone-{{ prefix }}" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+</div>
+<label class="check"><input type="checkbox" name="address[default]" value="1">{{ 'customer.set_default' | t }}</label>

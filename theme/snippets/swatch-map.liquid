@@ -1,0 +1,26 @@
+{%- comment -%}
+  Outputs Theme settings → Swatches as a JSON object for bliss.js.
+  Each line reads "Colour name: #hex" or "Colour name: file.jpg" (a file in assets/ or Content → Files).
+{%- endcomment -%}
+{%- liquid
+  assign lines = settings.swatch_colors | newline_to_br | split: '<br />'
+  echo '{'
+  for line in lines
+    assign clean = line | strip_newlines | strip
+    unless clean contains ':'
+      continue
+    endunless
+    assign key = clean | split: ':' | first | strip | downcase
+    assign value = clean | split: ':' | last | strip
+    if value contains '.jpg' or value contains '.png' or value contains '.webp'
+      assign value = value | asset_url
+    endif
+    echo key | json
+    echo ':'
+    echo value | json
+    unless forloop.last
+      echo ','
+    endunless
+  endfor
+  echo '}'
+-%}

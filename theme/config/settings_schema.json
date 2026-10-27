@@ -1,0 +1,116 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "BLISS",
+    "theme_version": "1.0.0",
+    "theme_author": "BLISS",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_paper", "label": "Background", "default": "#F6F5F3" },
+      { "type": "color", "id": "color_paper_2", "label": "Image and band background", "default": "#ECEAE6" },
+      { "type": "color", "id": "color_ink", "label": "Text and buttons", "default": "#171518" },
+      { "type": "color", "id": "color_ink_2", "label": "Secondary text", "default": "#5F5A61" },
+      { "type": "color", "id": "color_line", "label": "Lines", "default": "#DDD9D5" },
+      { "type": "color", "id": "color_accent", "label": "Accent", "default": "#7B6757" },
+      { "type": "color", "id": "color_sale", "label": "Sale", "default": "#9A4636" }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Leave empty to use the BLISS wordmark." },
+      { "type": "image_picker", "id": "logo_white", "label": "Logo on dark (footer)" },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon", "info": "Square, 64 × 64 px or larger." }
+    ]
+  },
+  {
+    "name": "Cart & shipping",
+    "settings": [
+      { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping from (₪)", "default": 299, "info": "Drives the progress bar in the bag. Use 0 to hide it. Match your shipping rates." },
+      { "type": "range", "id": "low_stock_threshold", "label": "Show “only X left” at or below", "min": 0, "max": 10, "step": 1, "default": 3, "info": "Uses real inventory. Turn on stock tracking for each product." },
+      { "type": "range", "id": "installments", "label": "Interest-free payments shown on product pages", "min": 0, "max": 12, "step": 1, "default": 3, "info": "0 hides the line. Must match what your payment provider offers." },
+      { "type": "range", "id": "delivery_min", "label": "Delivery estimate from (business days)", "min": 0, "max": 10, "step": 1, "default": 2 },
+      { "type": "range", "id": "delivery_max", "label": "Delivery estimate to (business days)", "min": 0, "max": 14, "step": 1, "default": 4, "info": "Friday and Saturday are skipped. 0 hides the estimate." }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "checkbox", "id": "card_hover_image", "label": "Show second image on hover", "default": true },
+      { "type": "checkbox", "id": "quick_add_enabled", "label": "Quick add", "default": true },
+      { "type": "checkbox", "id": "wishlist_enabled", "label": "Wishlist", "default": true }
+    ]
+  },
+  {
+    "name": "Swatches",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "swatch_colors",
+        "label": "Colour swatches",
+        "info": "One per line: colour name, colon, then a hex colour or an image file from assets.",
+        "default": "לבן: #F3F1EC\nשחור: #17161A\nשוקולד: #3D2B22\nמוקה: #7A6656\nאפור מלאנז׳: #C7C6C4\nבז׳: #D9C8B2\nטאופ: #8C7F72\nחום: #5B4434\nשמנת: #EEE8DD\nמשבצות כחול: swatch-blue-plaid.jpg\nמשבצות שחור: swatch-black-plaid.jpg\nמשבצות חום: swatch-brown-plaid.jpg\nWhite: #F3F1EC\nBlack: #17161A\nChocolate: #3D2B22\nMocha: #7A6656\nHeather Grey: #C7C6C4\nBeige: #D9C8B2\nTaupe: #8C7F72\nBrown: #5B4434\nIvory: #EEE8DD\nBlue Plaid: swatch-blue-plaid.jpg\nBlack Plaid: swatch-black-plaid.jpg\nBrown Plaid: swatch-brown-plaid.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Sign-up popup",
+    "settings": [
+      { "type": "checkbox", "id": "popup_enabled", "label": "Show popup", "default": true },
+      { "type": "range", "id": "popup_delay", "label": "Open after", "min": 3, "max": 60, "step": 1, "unit": "s", "default": 12, "info": "Also opens when the mouse leaves the page." },
+      { "type": "range", "id": "popup_days", "label": "Show again after", "min": 1, "max": 30, "step": 1, "unit": "d", "default": 7 },
+      { "type": "image_picker", "id": "popup_image", "label": "Image" },
+      { "type": "text", "id": "popup_eyebrow", "label": "Small label", "default": "מועדון BLISS" },
+      { "type": "text", "id": "popup_big", "label": "Big text", "default": "10%" },
+      { "type": "text", "id": "popup_heading", "label": "Heading", "default": "הנחה על ההזמנה הראשונה" },
+      { "type": "textarea", "id": "popup_text", "label": "Text", "default": "הצטרפי לרשימת הדיוור וקבלי קוד הנחה מיד, וגם גישה מוקדמת לקולקציות ולמבצעים." },
+      { "type": "text", "id": "popup_code", "label": "Discount code shown after sign-up", "default": "WELCOME10", "info": "Create this code in Shopify → Discounts first." }
+    ]
+  },
+  {
+    "name": "Search",
+    "settings": [
+      { "type": "text", "id": "popular_searches", "label": "Popular searches", "default": "שמלה, חליפה, משבצות, שחור, חצאית", "info": "Comma separated." }
+    ]
+  },
+  {
+    "name": "Mobile menu",
+    "settings": [
+      { "type": "link_list", "id": "mobile_menu", "label": "Main links", "default": "main-menu" },
+      { "type": "link_list", "id": "mobile_menu_secondary", "label": "Secondary links", "default": "footer" }
+    ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      { "type": "text", "id": "whatsapp_number", "label": "WhatsApp number", "info": "International format without +, e.g. 972501234567. Empty hides the button." },
+      { "type": "text", "id": "whatsapp_message", "label": "Pre-written message", "default": "היי BLISS, יש לי שאלה" }
+    ]
+  },
+  {
+    "name": "Accessibility",
+    "settings": [
+      { "type": "checkbox", "id": "a11y_enabled", "label": "Accessibility menu", "default": true },
+      { "type": "url", "id": "a11y_statement_url", "label": "Accessibility statement page", "info": "Create a page with the “accessibility” template and link it here." }
+    ]
+  },
+  {
+    "name": "Size guide",
+    "settings": [
+      { "type": "page", "id": "size_guide_page", "label": "Size guide page (optional)", "info": "Leave empty to use the built-in table." }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_instagram", "label": "Instagram" },
+      { "type": "url", "id": "social_facebook", "label": "Facebook" },
+      { "type": "url", "id": "social_tiktok", "label": "TikTok" },
+      { "type": "url", "id": "social_pinterest", "label": "Pinterest" }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code contains 'he' %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'gift_card.title' | t }} – {{ shop.name }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap">
+    {{ 'bliss.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    {{ content_for_header }}
+  </head>
+  <body>
+    <main class="club" style="min-height: 100dvh; display: grid; place-items: center; padding: 32px 16px">
+      <div class="club__inner" style="background: var(--paper); padding: 40px; border: 1px solid var(--line)">
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="483" height="158" style="height: 36px; width: auto">
+        <h1 class="h-xl">{{ 'gift_card.title' | t }}</h1>
+        <p class="popup__big">{{ gift_card.balance | money }}</p>
+        {%- if gift_card.enabled == false or gift_card.expired -%}
+          <p class="notice notice--error">{{ 'gift_card.expired' | t }}</p>
+        {%- endif -%}
+        <span class="code-chip">{{ gift_card.code | format_code }}</span>
+        <div id="gift-qr" data-identifier="{{ gift_card.qr_identifier }}"></div>
+        <a class="btn" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a>
+        {%- if gift_card.pass_url -%}<a href="{{ gift_card.pass_url }}"><img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" width="120" height="40" alt="Apple Wallet" loading="lazy"></a>{%- endif -%}
+      </div>
+    </main>
+    <script>
+      window.addEventListener('load', function () {
+        var el = document.getElementById('gift-qr');
+        if (window.QRCode && el) new QRCode(el, { text: el.dataset.identifier, width: 120, height: 120 });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+{%- liquid
+  assign lang = request.locale.iso_code | split: '-' | first
+  assign dir = 'ltr'
+  if lang == 'he' or lang == 'ar' or lang == 'fa' or lang == 'ur'
+    assign dir = 'rtl'
+  endif
+-%}
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ dir }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="{{ settings.color_paper }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" href="{{ 'favicon.png' | asset_url }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap">
+    {{ 'bliss.css' | asset_url | stylesheet_tag }}
+    {% render 'theme-styles' %}
+    {% render 'js-settings' %}
+    <script src="{{ 'bliss.js' | asset_url }}" defer="defer"></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handle }}">
+    <a class="skip-link" href="#main">{{ 'accessibility.skip_to_content' | t }}</a>
+    {% sections 'header-group' %}
+    <main id="main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+
+    {% render 'cart-drawer' %}
+    {% render 'drawers' %}
+    {% render 'size-guide' %}
+    {% render 'newsletter-popup' %}
+    {% render 'floating-actions' %}
+  </body>
+</html>

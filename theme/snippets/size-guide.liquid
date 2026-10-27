@@ -1,0 +1,40 @@
+{%- comment -%}
+  Size guide popup. Uses the page picked in Theme settings → Size guide, otherwise the default table.
+{%- endcomment -%}
+<dialog id="modal-size-guide" class="modal modal--wide" aria-labelledby="size-guide-title">
+  <button type="button" class="icon-btn modal__close" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  <div class="modal__body">
+    <h2 id="size-guide-title" class="h-xl">{{ 'size_guide.title' | t }}</h2>
+    {%- assign guide_page = pages[settings.size_guide_page] -%}
+    {%- if settings.size_guide_page != blank and guide_page.content != blank -%}
+      <div class="rte" style="margin-top: 16px">{{ guide_page.content }}</div>
+    {%- else -%}
+      <p class="muted" style="margin-top: 8px">{{ 'size_guide.intro' | t }}</p>
+      <div class="size-table-wrap">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th scope="col">{{ 'size_guide.size' | t }}</th>
+              <th scope="col">{{ 'size_guide.bust' | t }}</th>
+              <th scope="col">{{ 'size_guide.waist' | t }}</th>
+              <th scope="col">{{ 'size_guide.hips' | t }}</th>
+              <th scope="col">{{ 'size_guide.local' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>S</td><td>84–88</td><td>66–70</td><td>90–94</td><td>36–38</td></tr>
+            <tr><td>M</td><td>88–94</td><td>70–76</td><td>94–100</td><td>38–40</td></tr>
+            <tr><td>L</td><td>94–100</td><td>76–82</td><td>100–106</td><td>40–42</td></tr>
+            <tr><td>XL</td><td>100–106</td><td>82–88</td><td>106–112</td><td>42–44</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="how-measure">
+        <p><b>{{ 'size_guide.bust' | t }}</b>{{ 'size_guide.bust_how' | t }}</p>
+        <p><b>{{ 'size_guide.waist' | t }}</b>{{ 'size_guide.waist_how' | t }}</p>
+        <p><b>{{ 'size_guide.hips' | t }}</b>{{ 'size_guide.hips_how' | t }}</p>
+      </div>
+    {%- endif -%}
+    <p class="notice" style="margin-top: 20px">{{ 'size_guide.help' | t }}</p>
+  </div>
+</dialog>

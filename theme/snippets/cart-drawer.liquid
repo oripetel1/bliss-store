@@ -1,0 +1,17 @@
+{%- comment -%} Slide-out bag. bliss.js renders the contents from the cart JSON. {%- endcomment -%}
+<dialog id="drawer-cart" class="drawer" aria-labelledby="cart-title">
+  <div class="drawer__head">
+    <h2 id="cart-title" class="drawer__title">{{ 'cart.your_bag' | t }} <span class="mono" data-cart-count-label></span></h2>
+    <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="drawer__body" data-cart-body>
+    {%- if cart.item_count == 0 -%}
+      <div class="empty-state">
+        {%- render 'icon', name: 'bag' -%}
+        <p>{{ 'cart.empty' | t }}</p>
+        <button type="button" class="btn btn--ghost btn--sm" data-close>{{ 'cart.continue_shopping' | t }}</button>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="drawer__foot" data-cart-foot hidden></div>
+</dialog>

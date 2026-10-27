@@ -1,0 +1,150 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "ribbon": {
+      "type": "ribbon",
+      "settings": {
+        "speed": 42,
+        "light": true
+      },
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {
+            "text": "משלוח חינם מעל ₪299"
+          }
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {
+            "text": "החלפה קלה תוך 14 יום"
+          }
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {
+            "text": "עד 3 תשלומים ללא ריבית"
+          }
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {
+            "text": "שירות אישי בוואטסאפ"
+          }
+        },
+        "item-5": {
+          "type": "item",
+          "settings": {
+            "text": "מידות S–XL"
+          }
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4",
+        "item-5"
+      ]
+    },
+    "new": {
+      "type": "product-carousel",
+      "settings": {
+        "heading": "New collection",
+        "subheading": "הפריטים החדשים",
+        "limit": 8,
+        "link_label": "Shop now"
+      }
+    },
+    "tiles": {
+      "type": "split-tiles",
+      "settings": {},
+      "blocks": {
+        "tile-1": {
+          "type": "tile",
+          "settings": {
+            "title": "שמלות",
+            "subtitle": "שמלות מקסי ליום ולערב",
+            "link": "shopify://collections/dresses"
+          }
+        },
+        "tile-2": {
+          "type": "tile",
+          "settings": {
+            "title": "חליפות",
+            "subtitle": "סטים תואמים מכף רגל ועד ראש",
+            "link": "shopify://collections/sets"
+          }
+        }
+      },
+      "block_order": [
+        "tile-1",
+        "tile-2"
+      ]
+    },
+    "banner": {
+      "type": "image-banner",
+      "settings": {
+        "heading": "Most loved",
+        "top_space": 4
+      }
+    },
+    "loved": {
+      "type": "product-carousel",
+      "settings": {
+        "heading": "הכי אהובים",
+        "subheading": "",
+        "limit": 8,
+        "link_label": ""
+      }
+    },
+    "look": {
+      "type": "shop-the-look",
+      "settings": {
+        "heading": "Shop the look",
+        "subheading": "לבן על טאופ"
+      },
+      "blocks": {
+        "hotspot-1": {
+          "type": "hotspot",
+          "settings": {
+            "product": "tie-top",
+            "color": "לבן",
+            "x": 47,
+            "y": 40
+          }
+        },
+        "hotspot-2": {
+          "type": "hotspot",
+          "settings": {
+            "product": "style-skirt",
+            "color": "טאופ",
+            "x": 55,
+            "y": 74
+          }
+        }
+      },
+      "block_order": [
+        "hotspot-1",
+        "hotspot-2"
+      ]
+    },
+    "news": {
+      "type": "newsletter-band",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "ribbon",
+    "new",
+    "tiles",
+    "banner",
+    "loved",
+    "look",
+    "news"
+  ]
+}

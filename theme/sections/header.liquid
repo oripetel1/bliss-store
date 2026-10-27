@@ -1,0 +1,54 @@
+{%- liquid
+  assign overlay = false
+  if section.settings.overlay_home and request.page_type == 'index'
+    assign overlay = true
+  endif
+-%}
+<header class="hdr2{% if overlay %} hdr2--overlay{% endif %}" data-header data-no-hide>
+  <div class="wrap hdr2__bar">
+    <button type="button" class="icon-btn hdr2__burger" data-open="drawer-menu" aria-label="{{ 'general.menu' | t }}">{% render 'icon', name: 'menu' %}</button>
+    <button type="button" class="icon-btn hdr2__search-top" data-open="drawer-search" aria-label="{{ 'search.title' | t }}">{% render 'icon', name: 'search' %}</button>
+
+    {%- if request.page_type == 'index' -%}<h1 class="visually-hidden">{{ shop.name }}</h1>{%- endif -%}
+    <a class="hdr2__logo" href="{{ routes.root_url }}" aria-label="{{ 'general.home_label' | t: shop: shop.name }}">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 600 | image_tag: class: 'logo-dark', alt: shop.name, widths: '200, 400, 600' }}
+      {%- else -%}
+        <img class="logo-dark" src="{{ 'logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="483" height="158">
+      {%- endif -%}
+      {%- if settings.logo_white != blank -%}
+        {{ settings.logo_white | image_url: width: 600 | image_tag: class: 'logo-light', alt: '', widths: '200, 400, 600' }}
+      {%- else -%}
+        <img class="logo-light" src="{{ 'logo-white.svg' | asset_url }}" alt="" width="483" height="158">
+      {%- endif -%}
+    </a>
+
+    <nav class="hdr2__nav" aria-label="{{ 'general.main_navigation' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="hdr2__icons">
+      <button type="button" class="icon-btn" data-open="drawer-search" aria-label="{{ 'search.title' | t }}">{% render 'icon', name: 'search' %}</button>
+      {%- if shop.customer_accounts_enabled -%}
+        <a class="icon-btn hdr__hide-sm" href="{{ routes.account_url }}" aria-label="{{ 'customer.account' | t }}">{% render 'icon', name: 'user' %}</a>
+      {%- endif -%}
+      {%- if settings.wishlist_enabled -%}
+        <button type="button" class="icon-btn" data-open="drawer-wishlist" data-wish-target aria-label="{{ 'wishlist.title' | t }}">{%- render 'icon', name: 'heart' -%}<span class="count-dot" data-wishlist-count data-count="0">0</span></button>
+      {%- endif -%}
+      <a class="icon-btn" href="{{ routes.cart_url }}" data-open="drawer-cart" data-bag-target aria-label="{{ 'cart.title' | t }}">{%- render 'icon', name: 'bag' -%}<span class="count-dot" data-cart-count data-count="{{ cart.item_count }}">{{ cart.item_count }}</span></a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "overlay_home", "label": "See-through over the home page hero", "default": true, "info": "Becomes a white bar once you scroll past the hero." }
+  ]
+}
+{% endschema %}

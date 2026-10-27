@@ -1,0 +1,84 @@
+<footer class="site-footer site-footer--light">
+  <div class="wrap footer__top" style="--cols: {{ section.blocks.size }}">
+    <div class="footer__brand">
+      <a class="footer__logo" href="{{ routes.root_url }}">
+        {%- if settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, loading: 'lazy' }}
+        {%- else -%}
+          <img src="{{ 'logo.svg' | asset_url }}" alt="{{ shop.name | escape }}" width="483" height="158" loading="lazy">
+        {%- endif -%}
+      </a>
+      {%- if section.settings.about != blank -%}<p>{{ section.settings.about | escape }}</p>{%- endif -%}
+      <div class="footer__social">
+        {%- if settings.social_instagram != blank -%}<a class="icon-btn" href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">{% render 'icon', name: 'instagram' %}</a>{%- endif -%}
+        {%- if settings.social_facebook != blank -%}<a class="icon-btn" href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">{% render 'icon', name: 'facebook' %}</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a class="icon-btn" href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok">{% render 'icon', name: 'tiktok' %}</a>{%- endif -%}
+        {%- if settings.social_pinterest != blank -%}<a class="icon-btn" href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">{% render 'icon', name: 'pinterest' %}</a>{%- endif -%}
+      </div>
+    </div>
+    {%- for block in section.blocks -%}
+      <div {{ block.shopify_attributes }}>
+        {%- if block.settings.title != blank -%}<p class="eyebrow footer__title">{{ block.settings.title | escape }}</p>{%- endif -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <ul class="footer__links">
+              {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endfor -%}
+              {%- if block.settings.size_guide_link -%}<li><a href="#" data-open="modal-size-guide">{{ 'size_guide.title' | t }}</a></li>{%- endif -%}
+            </ul>
+          {%- when 'contact' -%}
+            <div class="footer__contact rte" style="font-size: var(--fs-sm)">{{ block.settings.text }}</div>
+          {%- when 'newsletter' -%}
+            {%- render 'subscribe-form', id: 'footer-newsletter', code: block.settings.code, tags: 'newsletter,footer' -%}
+        {%- endcase -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <div class="wrap footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }} · {{ 'general.rights' | t }}</p>
+    {%- if section.settings.payment_icons -%}
+      <div class="pay-icons" aria-label="{{ 'general.payment_methods' | t }}">
+        {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pay-icon' }}{%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "textarea", "id": "about", "label": "About text", "default": "אופנה נשית וצנועה בגזרות זורמות ובצבעים שקטים. מידות S–XL, משלוחים לכל הארץ." },
+    { "type": "checkbox", "id": "payment_icons", "label": "Show payment icons", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "מידע" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" },
+        { "type": "checkbox", "id": "size_guide_link", "label": "Add a size guide link", "default": true }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "צריכות עזרה?" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>WhatsApp: [מספר]</p><p>מייל: [כתובת]</p><p>א׳–ה׳, 9:00–18:00</p>" }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "הירשמי לניוזלטר" },
+        { "type": "text", "id": "code", "label": "Discount code shown after sign-up", "default": "WELCOME10" }
+      ]
+    }
+  ]
+}
+{% endschema %}

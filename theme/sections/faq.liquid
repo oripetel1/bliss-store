@@ -1,0 +1,35 @@
+<section class="section">
+  <div class="container">
+    {%- if section.settings.heading != blank -%}
+      <div class="sec-head sec-head--center"><div class="sec-head__text"><h2 class="h-2xl">{{ section.settings.heading | escape }}</h2></div></div>
+    {%- endif -%}
+    <div class="faq">
+      {%- for block in section.blocks -%}
+        <details class="accordion" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question | escape }}{% render 'icon', name: 'plus', class: 'icon--sm' %}</summary>
+          <div class="accordion__body rte" style="font-size: var(--fs-sm)">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "שאלות נפוצות" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "כמה זמן לוקח המשלוח?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>2–4 ימי עסקים עד הבית. בהזמנה מעל ₪299 המשלוח חינם.</p>" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "FAQ", "blocks": [ { "type": "question" } ] } ]
+}
+{% endschema %}

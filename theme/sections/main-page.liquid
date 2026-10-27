@@ -1,0 +1,13 @@
+<section class="page-head">
+  <div class="container page-head__inner">
+    <nav class="crumbs" aria-label="{{ 'general.breadcrumbs' | t }}"><a href="{{ routes.root_url }}">{{ 'general.home' | t }}</a><span aria-hidden="true">/</span><span>{{ page.title | escape }}</span></nav>
+    <h1 class="h-2xl">{{ page.title | escape }}</h1>
+  </div>
+</section>
+<section class="container section">
+  <div class="rte narrow">{{ page.content }}</div>
+</section>
+
+{% schema %}
+{ "name": "Page" }
+{% endschema %}

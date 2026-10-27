@@ -1,0 +1,23 @@
+{%- comment -%} Sign-up popup: opens after a delay or on exit intent, at most once per N days. {%- endcomment -%}
+{%- if settings.popup_enabled -%}
+  <dialog id="modal-newsletter" class="modal popup" aria-labelledby="popup-title">
+    <button type="button" class="icon-btn modal__close" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    <div class="popup__grid">
+      <div class="popup__media">
+        {%- if settings.popup_image != blank -%}
+          {{ settings.popup_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: '' }}
+        {%- else -%}
+          <img src="{{ 'cat-2.jpg' | asset_url }}" alt="" loading="lazy" width="800" height="1067">
+        {%- endif -%}
+      </div>
+      <div class="popup__body">
+        {%- if settings.popup_eyebrow != blank -%}<p class="eyebrow">{{ settings.popup_eyebrow | escape }}</p>{%- endif -%}
+        {%- if settings.popup_big != blank -%}<p class="popup__big" aria-hidden="true">{{ settings.popup_big | escape }}</p>{%- endif -%}
+        <h2 id="popup-title" class="h-lg">{{ settings.popup_heading | escape }}</h2>
+        {%- if settings.popup_text != blank -%}<p class="muted">{{ settings.popup_text | escape }}</p>{%- endif -%}
+        {%- render 'subscribe-form', id: 'popup-newsletter', code: settings.popup_code, tags: 'newsletter,popup' -%}
+        <button type="button" class="link-btn popup__no" data-close>{{ 'newsletter.later' | t }}</button>
+      </div>
+    </div>
+  </dialog>
+{%- endif -%}

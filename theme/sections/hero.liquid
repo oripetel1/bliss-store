@@ -1,0 +1,36 @@
+{%- comment -%} Full-screen hero: photo or video, short tagline and title centred at the bottom. {%- endcomment -%}
+<section class="hero-full" data-hero-full>
+  <div class="hero-full__media">
+    {%- if section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, playsinline: true, image_size: '1800x' }}
+    {%- elsif section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2600 | image_tag: widths: '750, 1100, 1500, 2000, 2600', sizes: '100vw', fetchpriority: 'high', alt: section.settings.image_alt }}
+    {%- else -%}
+      <img src="{{ 'hero-banner.jpg' | asset_url }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="900" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="hero-full__copy">
+    {%- if section.settings.tag != blank -%}<p class="hero-full__tag">{{ section.settings.tag | escape }}</p>{%- endif -%}
+    <h2 class="hero-full__title">{{ section.settings.heading | escape }}</h2>
+    {%- if section.settings.subheading != blank -%}<p class="hero-full__tag" style="letter-spacing: .02em">{{ section.settings.subheading | escape }}</p>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}<a class="btn btn--light" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>{%- endif -%}
+  </div>
+  <span class="hero-full__cue" aria-hidden="true">{% render 'icon', name: 'down' %}</span>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Video (optional)", "info": "Plays muted on a loop. Replaces the image." },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the BLISS campaign photo." },
+    { "type": "text", "id": "image_alt", "label": "Image description (alt text)", "default": "חמש דוגמניות בחליפות בלייזר וחצאיות מקסי בצבעי פסטל" },
+    { "type": "text", "id": "tag", "label": "Tagline", "default": "Modest · Soft · Timeless" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Quiet elegance, every day" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "אלגנטיות שקטה, לכל רגע ביום" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "לקולקציה" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [ { "name": "Hero" } ]
+}
+{% endschema %}

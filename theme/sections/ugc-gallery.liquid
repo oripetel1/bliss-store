@@ -1,0 +1,67 @@
+{%- comment -%} #MyBLISS: two rows of photos drifting in opposite directions. {%- endcomment -%}
+{%- liquid
+  assign label = 'sections.ugc_shop' | t
+  assign half = section.blocks.size | plus: 1 | divided_by: 2
+-%}
+<section class="section">
+  <div class="wrap sec-head">
+    <div class="sec-head__text">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow"><bdi>{{ section.settings.eyebrow | escape }}</bdi></p>{%- endif -%}
+      <h2 class="h-3xl">{{ section.settings.heading | escape }}</h2>
+    </div>
+    {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text | escape }}</p>{%- endif -%}
+  </div>
+  <div class="ugc2">
+    {%- for row in (1..2) -%}
+      <div class="ugc2__row{% if row == 2 %} ugc2__row--rev{% endif %}">
+        {%- for copy in (1..2) -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              if row == 1 and forloop.index > half
+                continue
+              endif
+              if row == 2 and forloop.index <= half
+                continue
+              endif
+              assign p = block.settings.product
+              assign href = block.settings.link | default: p.url | default: routes.all_products_collection_url
+              assign tile = forloop.index0 | modulo: 6 | plus: 1
+            -%}
+            <a class="ugc2__item" href="{{ href }}"{% if copy == 2 %} tabindex="-1" aria-hidden="true"{% endif %} {% if copy == 1 %}{{ block.shopify_attributes }}{% endif %}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: p.title }}
+              {%- else -%}
+                <img src="{{ 'ugc-' | append: tile | append: '.jpg' | asset_url }}" alt="{{ p.title | escape }}" loading="lazy" width="600" height="750">
+              {%- endif -%}
+              <span>{{ label }}</span>
+            </a>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "#MyBLISS photos",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "#MyBLISS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "איך את לובשת BLISS" },
+    { "type": "text", "id": "text", "label": "Text", "default": "תייגי אותנו באינסטגרם עם #MyBLISS ואולי תופיעי כאן." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Use customer photos only with their permission." },
+        { "type": "product", "id": "product", "label": "Product in the photo" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "#MyBLISS photos", "blocks": [ { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" }, { "type": "photo" } ] } ]
+}
+{% endschema %}

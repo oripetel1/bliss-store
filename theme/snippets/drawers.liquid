@@ -1,0 +1,67 @@
+{%- comment -%} Wishlist, search, mobile menu and image lightbox. {%- endcomment -%}
+{%- if settings.wishlist_enabled -%}
+  <dialog id="drawer-wishlist" class="drawer" aria-labelledby="wishlist-title">
+    <div class="drawer__head">
+      <h2 id="wishlist-title" class="drawer__title">{{ 'wishlist.title' | t }}</h2>
+      <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="drawer__body" data-wishlist-body></div>
+  </dialog>
+{%- endif -%}
+
+<dialog id="drawer-search" class="drawer drawer--full" aria-label="{{ 'search.title' | t }}">
+  <div class="wrap" data-search style="padding-block: 24px 0">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 24px"><button type="button" class="btn-circle btn-circle--sm" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button></div>
+    <form class="search-box" action="{{ routes.search_url }}" method="get" role="search" data-search-form>
+      {%- render 'icon', name: 'search' -%}
+      <label class="visually-hidden" for="drawer-search-input">{{ 'search.title' | t }}</label>
+      <input id="drawer-search-input" type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" autocomplete="off" data-search-input>
+      <input type="hidden" name="type" value="product">
+    </form>
+    <div class="search-body">
+      {%- assign terms = settings.popular_searches | split: ',' -%}
+      {%- if terms.size > 0 -%}
+        <div data-search-suggest>
+          <p class="eyebrow" style="margin-bottom: 12px">{{ 'search.popular' | t }}</p>
+          <div class="chips" style="flex-wrap: wrap; padding: 0">
+            {%- for term in terms -%}
+              {%- assign term = term | strip -%}
+              <button type="button" class="chip" data-search-term="{{ term | escape }}">{{ term | escape }}</button>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+      <div data-search-results></div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="drawer-menu" class="drawer drawer--start" aria-labelledby="menu-title">
+  <div class="drawer__head">
+    <h2 id="menu-title" class="drawer__title">{{ 'general.menu' | t }}</h2>
+    <button type="button" class="icon-btn" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="drawer__body">
+    <nav class="menu-list" aria-label="{{ 'general.menu' | t }}">
+      {%- for link in linklists[settings.mobile_menu].links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}{% render 'icon', name: 'arrow' %}</a>
+        {%- for child in link.links -%}
+          <a href="{{ child.url }}" style="font-size: var(--fs-md); padding-inline-start: 16px">{{ child.title | escape }}</a>
+        {%- endfor -%}
+      {%- endfor -%}
+    </nav>
+    <div class="menu-sub">
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}">{{ 'customer.account' | t }}</a>
+      {%- endif -%}
+      {%- for link in linklists[settings.mobile_menu_secondary].links -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</dialog>
+
+<dialog id="modal-lightbox" class="modal lightbox" aria-label="{{ 'products.zoom' | t }}">
+  <button type="button" class="icon-btn modal__close" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
+  <img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" width="1200" height="1600">
+</dialog>

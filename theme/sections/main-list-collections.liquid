@@ -1,0 +1,22 @@
+<section class="page-head">
+  <div class="container page-head__inner"><h1 class="h-2xl">{{ 'collections.title' | t }}</h1></div>
+</section>
+<section class="container section">
+  <div class="cats">
+    {%- for c in collections -%}
+      {%- assign tile_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+      <a class="cat" href="{{ c.url }}">
+        {%- if c.featured_image -%}
+          {{ c.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: '' }}
+        {%- else -%}
+          <img src="{{ 'cat-' | append: tile_index | append: '.jpg' | asset_url }}" alt="" loading="lazy" width="800" height="1067">
+        {%- endif -%}
+        <span class="cat__label"><span><span class="cat__name">{{ c.title | escape }}</span><br><span class="cat__count">{{ 'collections.items' | t: count: c.products_count }}</span></span>{% render 'icon', name: 'arrow' %}</span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Collections list" }
+{% endschema %}

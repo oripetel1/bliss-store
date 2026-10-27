@@ -1,0 +1,35 @@
+{%- liquid
+  assign labels = ''
+  capture items
+    for block in section.blocks
+      assign txt = block.settings.text | escape
+      echo '<span class="ribbon__item">' | append: txt | append: '</span>'
+    endfor
+  endcapture
+  for block in section.blocks
+    assign labels = labels | append: block.settings.text
+    unless forloop.last
+      assign labels = labels | append: ' · '
+    endunless
+  endfor
+-%}
+{%- if section.blocks.size > 0 -%}
+  <div class="ribbon{% if section.settings.light %} ribbon--light{% endif %}" role="note" aria-label="{{ labels | escape }}" style="--speed: {{ section.settings.speed }}s">
+    <div class="ribbon__track" aria-hidden="true">{{ items }}{{ items }}{{ items }}{{ items }}</div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Moving ribbon",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "range", "id": "speed", "label": "Seconds per loop", "min": 20, "max": 80, "step": 2, "default": 42 },
+    { "type": "checkbox", "id": "light", "label": "Light style with dots", "default": true }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Message", "settings": [ { "type": "text", "id": "text", "label": "Text", "default": "משלוח חינם מעל ₪299" } ] }
+  ],
+  "presets": [ { "name": "Moving ribbon", "blocks": [ { "type": "item" } ] } ]
+}
+{% endschema %}

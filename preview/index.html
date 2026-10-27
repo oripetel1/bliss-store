@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BLISS Storefront</title>
+<meta name="description" content="Clickable preview of the BLISS Shopify theme: modest womenswear in Hebrew and English.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap">
+<link rel="icon" href="images/favicon.png">
+<link rel="stylesheet" href="bliss.css">
+<style>
+  /* Preview-only chrome: the tool bar above the store and the launch guide layout. */
+  :root { --pv-bg: #D9D6DC; color-scheme: light; }
+  body { background: var(--paper); }
+  .pv-bar { background: var(--pv-bg); color: var(--ink); font-size: 12px; border-bottom: 1px solid var(--line); position: relative; z-index: 52; }
+  .pv-bar__inner { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; min-height: 40px; padding-block: 6px; }
+  .pv-bar__label { min-width: 0; }
+  .pv-bar__actions { display: flex; align-items: center; gap: 6px 14px; flex-wrap: wrap; }
+  .pv-seg { display: inline-flex; border: 1px solid var(--ink-2); }
+  .pv-seg button { border: 0; background: transparent; padding: 3px 10px; font-size: 12px; cursor: pointer; }
+  .pv-seg button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+  .pv-link { border: 0; background: none; padding: 0; font-size: 12px; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; color: var(--ink); }
+  .pv-link--strong { font-weight: 600; }
+  .guide { max-width: 1080px; padding-block: clamp(40px, 6vw, 80px); display: grid; gap: clamp(48px, 6vw, 80px); }
+  .guide__block { display: grid; gap: 16px; min-width: 0; }
+  .guide__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+  .guide__card { border: 1px solid var(--line); padding: 20px; display: grid; gap: 6px; align-content: start; font-size: var(--fs-sm); background: var(--paper); }
+  .guide__table { overflow-x: auto; border-top: 1px solid var(--line); }
+  .guide__table td { vertical-align: top; }
+  .guide__table td:first-child { min-width: 180px; }
+  .guide__tier { margin-top: 12px; font-family: var(--f-display); }
+  .guide__apps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .guide__app { border: 1px solid var(--line); padding: 18px 20px; display: grid; gap: 8px; align-content: start; font-size: var(--fs-sm); }
+  .guide__app-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: var(--fs-base); }
+  .guide__steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .guide__steps li { counter-increment: step; display: grid; grid-template-columns: 48px 1fr; gap: 4px 12px; padding-block: 18px; border-bottom: 1px solid var(--line); font-size: var(--fs-sm); }
+  .guide__steps li::before { content: counter(step, decimal-leading-zero); grid-row: span 2; font-family: var(--f-display); font-size: var(--fs-lg); color: var(--mocha); line-height: 1.1; }
+  .guide__steps b { font-size: var(--fs-base); }
+  .guide code { font-size: .9em; background: var(--paper-2); padding: 1px 6px; direction: ltr; unicode-bidi: isolate; }
+  .guide__list { display: grid; gap: 12px; font-size: var(--fs-sm); }
+  .guide__list li { display: flex; gap: 10px; align-items: flex-start; }
+  .guide__list .icon { margin-top: 4px; }
+  @media (max-width: 989px) { .guide__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .guide__apps { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+  window.BlissManualInit = true;
+  window.BlissSettings = {
+    moneyFormat: '₪{{amount}}',
+    routes: { root: '/', cart: '#/cart', checkout: '#checkout', search: '#/search' },
+    freeShippingThreshold: 29900,
+    lowStockThreshold: 3,
+    installments: 3,
+    delivery: { min: 2, max: 4, skipDays: [5, 6] },
+    popup: { enabled: true, delay: 14, days: 7 },
+    updateUrl: false,
+    swatches: {}
+  };
+</script>
+<script src="bliss.js"></script>
+<script src="preview-data.js"></script>
+<script src="preview-data-v2.js"></script>
+<script>
+  (function () {
+    var C = window.BlissPreviewData.COLORS, map = {}, tints = {};
+    Object.keys(C).forEach(function (k) {
+      [C[k].he.toLowerCase(), C[k].en.toLowerCase()].forEach(function (n) { map[n] = C[k].css; if (C[k].tint) tints[n] = C[k].tint; });
+    });
+    window.Bliss.settings.swatches = map;
+    window.Bliss.settings.tints = tints;
+  })();
+</script>
+<script src="guide.js"></script>
+<script src="preview.js"></script>
+</body>
+</html>

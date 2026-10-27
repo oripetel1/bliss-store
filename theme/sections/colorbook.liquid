@@ -1,0 +1,112 @@
+{%- comment -%}
+  Shop by colour. Each block is one shade; the section lists every product in the
+  chosen collection that has that colour value (option named צבע / Color).
+{%- endcomment -%}
+{%- liquid
+  assign c = section.settings.collection | default: collections.all
+-%}
+<section class="cbook" id="colorbook" data-colorbook>
+  <div class="wrap">
+    <div class="cbook__head">
+      <div class="sec-head__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="h-3xl">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text | escape }}</p>{%- endif -%}
+    </div>
+    <div class="cbook__inner">
+      {%- capture strips -%}{%- endcapture -%}
+      {%- capture media -%}{%- endcapture -%}
+      {%- capture panels -%}{%- endcapture -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign names = block.settings.values | split: ','
+          assign key = 'cb-' | append: block.id
+          assign count = 0
+          assign first_img = nil
+          capture rows
+            for product in c.products limit: 60
+              assign ci = -1
+              for option in product.options_with_values
+                assign oname = option.name | downcase | strip
+                if oname == 'color' or oname == 'colour' or oname == 'צבע'
+                  assign ci = forloop.index0
+                endif
+              endfor
+              if ci < 0
+                continue
+              endif
+              for variant in product.variants
+                assign vname = variant.options[ci] | strip
+                assign hit = false
+                for n in names
+                  assign nn = n | strip
+                  if nn == vname
+                    assign hit = true
+                  endif
+                endfor
+                if hit
+                  assign count = count | plus: 1
+                  assign img = variant.featured_image | default: product.featured_image
+                  if first_img == nil
+                    assign first_img = img
+                  endif
+                  echo '<div class="cbook__row">'
+                  echo img | image_url: width: 160 | image_tag: loading: 'lazy', alt: ''
+                  echo '<div><a href="' | append: variant.url | append: '">' | append: product.title | append: '</a>'
+                  echo '<div class="mono muted" style="font-size: var(--fs-micro)">' | append: vname | append: '</div></div>'
+                  render 'price', product: product
+                  echo '</div>'
+                  break
+                endif
+              endfor
+            endfor
+          endcapture
+          if block.settings.image != blank
+            assign bg = block.settings.image | image_url: width: 300 | prepend: "url('" | append: "')"
+          else
+            assign bg = block.settings.color
+          endif
+          assign tone = 'light'
+          if block.settings.color.lightness < 55
+            assign tone = 'dark'
+          endif
+        -%}
+        {%- capture strips -%}{{ strips }}<button type="button" class="strip" role="tab" data-strip="{{ key }}" data-tint="{{ block.settings.color }}" data-tone="{{ tone }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="{{ key }}-panel" style="--c: {{ bg }}" {{ block.shopify_attributes }}><span class="strip__count">{{ count | prepend: '0' | slice: -2, 2 }}</span><span class="strip__name" aria-hidden="true">{{ block.settings.label | escape }}</span><span class="visually-hidden">{{ block.settings.label | escape }}</span></button>{%- endcapture -%}
+        {%- capture media -%}{{ media }}{% if first_img %}<img src="{{ first_img | image_url: width: 1000 }}" alt="" loading="lazy" width="1000" height="1333" data-cb-img="{{ key }}"{% if forloop.first %} class="is-active"{% endif %}>{% endif %}{%- endcapture -%}
+        {%- capture panels -%}{{ panels }}<div class="cbook__list" id="{{ key }}-panel" role="tabpanel" data-cb-panel="{{ key }}"{% unless forloop.first %} hidden{% endunless %}><p class="cbook__list-title">{{ block.settings.label | escape }}<span class="sup">({{ count | prepend: '0' | slice: -2, 2 }})</span></p><div class="cbook__rows">{{ rows }}</div><div class="cbook__more"><a class="link-arrow" href="{{ routes.search_url }}?q={{ names.first | strip | url_encode }}&type=product">{{ 'sections.all_in_color' | t: color: block.settings.label }} {% render 'icon', name: 'arrow' %}</a></div></div>{%- endcapture -%}
+      {%- endfor -%}
+      <div class="cbook__fan" role="tablist" aria-label="{{ section.settings.eyebrow | escape }}">{{ strips }}</div>
+      <div class="cbook__stage">
+        <div class="cbook__media">{{ media }}</div>
+        {{ panels }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colour book",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "לפי צבע" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "פלטה שקטה, עשרה גוונים" },
+    { "type": "text", "id": "text", "label": "Text", "default": "בחרי גוון וראי את כל הפריטים שמגיעים בו." },
+    { "type": "collection", "id": "collection", "label": "Products from", "info": "Empty uses all products." }
+  ],
+  "blocks": [
+    {
+      "type": "shade",
+      "name": "Shade",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Name shown", "default": "מוקה" },
+        { "type": "text", "id": "values", "label": "Colour values to match", "default": "מוקה", "info": "Exactly as in your products. Comma separated, e.g. משבצות כחול, משבצות חום" },
+        { "type": "color", "id": "color", "label": "Strip colour", "default": "#7A6656" },
+        { "type": "image_picker", "id": "image", "label": "Strip texture (optional)", "info": "For patterns such as plaid." }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Colour book", "blocks": [ { "type": "shade" } ] } ]
+}
+{% endschema %}

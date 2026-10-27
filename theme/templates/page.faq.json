@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "heading": ""
+      },
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "איך יודעים איזו מידה לבחור?",
+            "answer": "<p>בכל עמוד מוצר יש מדריך מידות. בין שתי מידות? בחרי את הגדולה, או כתבי לנו בוואטסאפ.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "כמה זמן לוקח המשלוח?",
+            "answer": "<p>2–4 ימי עסקים עד הבית. בהזמנה מעל ₪299 המשלוח חינם.</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "אפשר לשלם בתשלומים?",
+            "answer": "<p>כן, עד 3 תשלומים ללא ריבית בכרטיס אשראי.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "איך מחליפים פריט?",
+            "answer": "<p>תוך 14 יום מהקבלה, כשהפריט לא נלבש והתוויות מחוברות. כתבי לנו ונתאם איסוף או החלפה.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

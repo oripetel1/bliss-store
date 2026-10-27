@@ -1,0 +1,86 @@
+{%- comment -%} Lookbook: vertical scroll moves a horizontal row of outfits (native swipe on phones). {%- endcomment -%}
+{%- assign view_label = 'products.view' | t -%}
+<section class="lookbook" id="lookbook" data-lookbook>
+  <div class="lookbook__pin">
+    <div class="wrap lookbook__head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="h-3xl">{{ section.settings.heading | escape }}</h2>
+      </div>
+      <div class="lookbook__progress"><span data-look-current>01</span><span class="lookbook__bar"><span></span></span><span>{{ section.blocks.size | prepend: '0' | slice: -2, 2 }}</span></div>
+    </div>
+    <div class="lookbook__track">
+      {%- for block in section.blocks -%}
+        {%- assign p1 = block.settings.product_1 -%}
+        {%- assign tile = forloop.index0 | modulo: 6 | plus: 1 -%}
+        <article class="look" {{ block.shopify_attributes }}>
+          <a class="look__media" href="{{ p1.url | default: routes.all_products_collection_url }}" data-cursor="{{ view_label | escape }}">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000', sizes: '(min-width: 990px) 28vw, 76vw', alt: block.settings.title }}
+            {%- elsif p1.featured_media -%}
+              {{ p1.featured_media | image_url: width: 1000 | image_tag: loading: 'lazy', alt: block.settings.title }}
+            {%- else -%}
+              <img src="{{ 'ugc-' | append: tile | append: '.jpg' | asset_url }}" alt="" loading="lazy" width="600" height="750">
+            {%- endif -%}
+            <span class="look__num">Look {{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          </a>
+          <h3 class="look__title">{{ block.settings.title | escape }}</h3>
+          <ul class="look__pieces">
+            {%- for i in (1..2) -%}
+              {%- liquid
+                assign pk = 'product_' | append: i
+                assign ck = 'color_' | append: i
+                assign p = block.settings[pk]
+                assign col = block.settings[ck]
+              -%}
+              {%- if p != blank -%}
+                <li data-product-card data-handle="{{ p.handle }}"{% if col != blank %} data-active-color="{{ col | escape }}"{% endif %}>
+                  <a href="{{ p.url }}">{{ p.title | escape }}{% if col != blank %} <span class="mono" style="opacity: .6; font-size: var(--fs-micro)">· {{ col | escape }}</span>{% endif %}</a>
+                  <span style="display: flex; align-items: center; gap: 10px">
+                    {%- render 'price', product: p -%}
+                    {%- if p.available -%}
+                      <span data-quick-add="{{ p.handle }}" class="look__quick"><button type="button" class="btn-circle btn-circle--sm" data-quick-open aria-label="{{ 'products.quick_add' | t }}: {{ p.title | escape }}">{% render 'icon', name: 'plus', class: 'icon--sm' %}</button><span class="card__sizes" data-quick-sizes hidden></span></span>
+                    {%- endif -%}
+                  </span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </article>
+      {%- endfor -%}
+      <div class="look__end">
+        <p class="h-xl">{{ section.settings.end_text | escape }}</p>
+        <a class="btn btn--light" href="{{ section.settings.end_link | default: routes.all_products_collection_url }}" style="justify-self: start">{{ section.settings.end_label | escape }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Lookbook · סתיו–חורף 26" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "שישה לוקים לעונה" },
+    { "type": "text", "id": "end_text", "label": "Closing text", "default": "כל הלוקים וכל הפריטים, במקום אחד." },
+    { "type": "text", "id": "end_label", "label": "Closing button", "default": "לכל הקולקציה" },
+    { "type": "url", "id": "end_link", "label": "Closing link" }
+  ],
+  "blocks": [
+    {
+      "type": "look",
+      "name": "Look",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Outfit photo" },
+        { "type": "text", "id": "title", "label": "Title", "default": "לבן על טאופ" },
+        { "type": "product", "id": "product_1", "label": "Piece 1" },
+        { "type": "text", "id": "color_1", "label": "Piece 1 colour", "info": "Quick add opens this colour, e.g. לבן" },
+        { "type": "product", "id": "product_2", "label": "Piece 2" },
+        { "type": "text", "id": "color_2", "label": "Piece 2 colour" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Lookbook", "blocks": [ { "type": "look" }, { "type": "look" }, { "type": "look" } ] } ]
+}
+{% endschema %}

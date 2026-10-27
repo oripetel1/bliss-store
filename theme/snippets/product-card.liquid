@@ -1,0 +1,108 @@
+{%- comment -%}
+  Product card used by every grid. Same markup as Bliss.cardHTML() in assets/bliss.js.
+  Accepts: product, sizes (optional image sizes attribute)
+{%- endcomment -%}
+{%- liquid
+  assign sizes = sizes | default: '(min-width: 990px) 30vw, 50vw'
+  assign color_option = nil
+  assign size_option = nil
+  assign color_index = 0
+  for option in product.options_with_values
+    assign oname = option.name | downcase | strip
+    if oname == 'color' or oname == 'colour' or oname == 'צבע'
+      assign color_option = option
+      assign color_index = forloop.index0
+    elsif oname == 'size' or oname == 'מידה'
+      assign size_option = option
+    endif
+  endfor
+  assign second = product.media[1]
+  assign is_new = false
+  if product.tags contains 'new' or product.tags contains 'חדש'
+    assign is_new = true
+  endif
+  assign view_label = 'products.view' | t
+-%}
+<article class="card" data-product-card data-handle="{{ product.handle }}">
+  <div class="card__frame">
+    <a class="card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true" data-cursor="{{ view_label | escape }}">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 1000 | image_tag: class: 'card__img', loading: 'lazy', widths: '360, 540, 720, 1000', sizes: sizes, alt: product.title }}
+      {%- else -%}
+        {{ 'product-apparel-1' | placeholder_svg_tag: 'card__img' }}
+      {%- endif -%}
+      {%- if second and settings.card_hover_image -%}
+        {{ second | image_url: width: 1000 | image_tag: class: 'card__img card__img--alt', loading: 'lazy', widths: '360, 540, 720, 1000', sizes: sizes, alt: '' }}
+      {%- endif -%}
+    </a>
+    {%- if product.available == false -%}
+      <span class="tag tag--soldout">{{ 'products.sold_out' | t }}</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      <span class="tag tag--sale">{{ 'products.sale' | t }}</span>
+    {%- elsif is_new -%}
+      <span class="tag">{{ 'products.new' | t }}</span>
+    {%- endif -%}
+    {%- if settings.wishlist_enabled -%}
+      <button type="button" class="icon-btn card__wish wish-btn" data-wishlist-toggle="{{ product.handle }}" aria-pressed="false" aria-label="{{ 'wishlist.add' | t }}">{%- render 'icon', name: 'heart' -%}</button>
+    {%- endif -%}
+    {%- if product.available and settings.quick_add_enabled -%}
+      <div class="card__quick" data-quick-add="{{ product.handle }}">
+        <button type="button" class="card__quick-btn" data-quick-open aria-label="{{ 'products.quick_add' | t }}">{%- render 'icon', name: 'plus', class: 'icon--sm' -%}<span>{{ 'products.quick_add' | t }}</span></button>
+        <div class="card__sizes" data-quick-sizes hidden></div>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="card__info">
+    <div class="card__row">
+      <h3 class="card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      {%- render 'price', product: product -%}
+    </div>
+    <div class="card__sub">
+      {%- if color_option and color_option.values.size > 1 -%}
+        <div class="swatches">
+          {%- for value in color_option.values limit: 5 -%}
+            {%- liquid
+              assign value_name = value.name | default: value
+              assign match = nil
+              for variant in product.variants
+                if variant.options[color_index] == value_name
+                  assign match = variant
+                  break
+                endif
+              endfor
+              assign swatch_img = match.featured_image
+              if swatch_img == blank
+                for m in product.media
+                  if m.alt == value_name
+                    assign swatch_img = m.preview_image
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            <button
+              type="button"
+              class="swatch"
+              style="--swatch: {% render 'swatch-style', value: value %}"
+              data-swatch-color="{{ value_name | escape }}"
+              {% if swatch_img %}
+                data-swatch-img="{{ swatch_img | image_url: width: 1000 }}"
+              {% endif %}
+              data-swatch-url="{{ product.url }}?variant={{ match.id }}"
+              aria-label="{{ value_name | escape }}"
+              title="{{ value_name | escape }}"
+            ></button>
+          {%- endfor -%}
+          {%- if color_option.values.size > 5 -%}<span class="swatches__more">+{{ color_option.values.size | minus: 5 }}</span>{%- endif -%}
+        </div>
+      {%- else -%}
+        <span></span>
+      {%- endif -%}
+      {%- if size_option -%}
+        {%- assign first_size = size_option.values | first -%}
+        {%- assign last_size = size_option.values | last -%}
+        <span class="card__range">{{ first_size.name | default: first_size }}{% if size_option.values.size > 1 %}–{{ last_size.name | default: last_size }}{% endif %}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

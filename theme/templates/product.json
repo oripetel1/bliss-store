@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "sticky_atc": true
+      },
+      "blocks": {
+        "title-1": {
+          "type": "title",
+          "settings": {}
+        },
+        "price-2": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker-3": {
+          "type": "variant_picker",
+          "settings": {
+            "size_guide": true
+          }
+        },
+        "buy_buttons-4": {
+          "type": "buy_buttons",
+          "settings": {
+            "dynamic_checkout": false,
+            "notify": true
+          }
+        },
+        "delivery-5": {
+          "type": "delivery",
+          "settings": {}
+        },
+        "perks-6": {
+          "type": "perks",
+          "settings": {
+            "perk_1": "משלוח חינם מעל ₪299",
+            "perk_2": "החלפה קלה תוך 14 יום",
+            "perk_3": "תשלום מאובטח · עד 3 תשלומים"
+          }
+        },
+        "collapsible-7": {
+          "type": "collapsible",
+          "settings": {
+            "title": "תיאור",
+            "source": "description",
+            "open": true
+          }
+        },
+        "collapsible-8": {
+          "type": "collapsible",
+          "settings": {
+            "title": "בד והוראות טיפול",
+            "source": "custom",
+            "content": "<p>כביסה עדינה במים קרים, ייבוש בצל, גיהוץ בחום נמוך מהצד הפנימי.</p>"
+          }
+        },
+        "collapsible-9": {
+          "type": "collapsible",
+          "settings": {
+            "title": "משלוחים והחזרות",
+            "source": "custom",
+            "content": "<p>משלוח חינם בהזמנה מעל ₪299, ומתחת לכך ₪29. המשלוח מגיע עד הבית תוך 2–4 ימי עסקים. אפשר להחליף או להחזיר תוך 14 יום מקבלת ההזמנה, כשהפריט לא נלבש והתוויות מחוברות.</p>"
+          }
+        },
+        "complete_look-10": {
+          "type": "complete_look",
+          "settings": {
+            "heading": "להשלמת הלוק",
+            "limit": 2
+          }
+        },
+        "label-1": {
+          "type": "label",
+          "settings": {
+            "title": "התווית"
+          }
+        }
+      },
+      "block_order": [
+        "title-1",
+        "price-2",
+        "variant_picker-3",
+        "buy_buttons-4",
+        "delivery-5",
+        "perks-6",
+        "collapsible-7",
+        "label-1",
+        "collapsible-8",
+        "collapsible-9",
+        "complete_look-10"
+      ]
+    },
+    "reviews": {
+      "type": "apps",
+      "settings": {
+        "heading": "ביקורות",
+        "no_top_space": false
+      },
+      "blocks": {},
+      "block_order": []
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "אולי תאהבי גם",
+        "limit": 4
+      }
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {
+        "heading": "צפית לאחרונה",
+        "limit": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "reviews",
+    "recommendations",
+    "recent"
+  ]
+}

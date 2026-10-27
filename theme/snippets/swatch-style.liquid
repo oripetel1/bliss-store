@@ -1,0 +1,34 @@
+{%- comment -%}
+  CSS background for one colour value. Order: Shopify's own swatch (image or colour),
+  then Theme settings → Swatches, then a neutral fallback.
+  Accepts: value (product option value or string)
+{%- endcomment -%}
+{%- liquid
+  assign css = ''
+  if value.swatch.image
+    assign css = value.swatch.image | image_url: width: 96 | prepend: "url('" | append: "')"
+  elsif value.swatch.color
+    assign css = value.swatch.color
+  endif
+  if css == blank
+    assign name = value.name | default: value | strip | downcase
+    assign lines = settings.swatch_colors | newline_to_br | split: '<br />'
+    for line in lines
+      assign clean = line | strip_newlines | strip
+      assign key = clean | split: ':' | first | strip | downcase
+      if key == name
+        assign v = clean | split: ':' | last | strip
+        if v contains '.jpg' or v contains '.png' or v contains '.webp'
+          assign css = v | asset_url | prepend: "url('" | append: "')"
+        else
+          assign css = v
+        endif
+        break
+      endif
+    endfor
+  endif
+  if css == blank
+    assign css = 'var(--paper-2)'
+  endif
+  echo css
+-%}

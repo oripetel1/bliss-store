@@ -1,0 +1,11 @@
+<section class="container section">
+  <div class="empty-state">
+    <h1 class="h-2xl" style="color: var(--ink)">{{ 'general.not_found' | t }}</h1>
+    <p>{{ 'general.not_found_text' | t }}</p>
+    <a class="btn" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "404" }
+{% endschema %}

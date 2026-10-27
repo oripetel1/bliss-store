@@ -1,0 +1,13 @@
+{%- comment -%} Brand colours from Theme settings → Colors override the stylesheet defaults. {%- endcomment -%}
+<style>
+  :root {
+    --paper: {{ settings.color_paper }};
+    --paper-2: {{ settings.color_paper_2 }};
+    --ink: {{ settings.color_ink }};
+    --ink-2: {{ settings.color_ink_2 }};
+    --line: {{ settings.color_line }};
+    --mocha: {{ settings.color_accent }};
+    --sale: {{ settings.color_sale }};
+    --on-ink: {{ settings.color_paper }};
+  }
+</style>

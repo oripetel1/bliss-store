@@ -1,0 +1,51 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "msg-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "משלוח חינם בכל הזמנה מעל ₪299",
+            "link": "shopify://collections/all"
+          }
+        },
+        "msg-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "10% הנחה לקנייה הראשונה בהצטרפות למועדון",
+            "link": ""
+          }
+        },
+        "msg-3": {
+          "type": "announcement",
+          "settings": {
+            "text": "החלפה קלה תוך 14 יום",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "msg-1",
+        "msg-2",
+        "msg-3"
+      ],
+      "settings": {
+        "speed": 5
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "overlay_home": true
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}

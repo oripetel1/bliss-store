@@ -1,0 +1,31 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_paper": "#F6F5F3",
+      "color_paper_2": "#ECEAE6",
+      "color_ink": "#171518",
+      "color_ink_2": "#5F5A61",
+      "color_line": "#DDD9D5",
+      "color_accent": "#7B6757",
+      "color_sale": "#9A4636",
+      "free_shipping_threshold": 299,
+      "low_stock_threshold": 3,
+      "installments": 3,
+      "delivery_min": 2,
+      "delivery_max": 4,
+      "card_hover_image": true,
+      "quick_add_enabled": true,
+      "wishlist_enabled": true,
+      "popup_enabled": true,
+      "popup_delay": 12,
+      "popup_days": 7,
+      "popup_code": "WELCOME10",
+      "popular_searches": "שמלה, חליפה, משבצות, שחור, חצאית",
+      "mobile_menu": "main-menu",
+      "mobile_menu_secondary": "footer",
+      "whatsapp_message": "היי BLISS, יש לי שאלה",
+      "a11y_enabled": true
+    }
+  }
+}

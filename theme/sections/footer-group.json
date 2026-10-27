@@ -1,0 +1,45 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "menu-1": {
+          "type": "menu",
+          "settings": {
+            "title": "מידע",
+            "menu": "footer",
+            "size_guide_link": true
+          }
+        },
+        "contact-2": {
+          "type": "contact",
+          "settings": {
+            "title": "צריכות עזרה?",
+            "text": "<p>WhatsApp: [מספר]</p><p>מייל: [כתובת]</p><p>א׳–ה׳, 9:00–18:00</p>"
+          }
+        },
+        "newsletter-3": {
+          "type": "newsletter",
+          "settings": {
+            "title": "הירשמי לניוזלטר",
+            "code": "WELCOME10"
+          }
+        }
+      },
+      "block_order": [
+        "menu-1",
+        "contact-2",
+        "newsletter-3"
+      ],
+      "settings": {
+        "about": "אופנה נשית וצנועה בגזרות זורמות ובצבעים שקטים. מידות S–XL, משלוחים לכל הארץ.",
+        "payment_icons": true
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

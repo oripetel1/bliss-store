@@ -1,0 +1,68 @@
+{%- comment -%} Settings and translated strings for assets/bliss.js. {%- endcomment -%}
+{%- liquid
+  assign lb = '{' | append: '{ '
+  assign rb = ' }' | append: '}'
+  assign ph_amount = lb | append: 'amount' | append: rb
+  assign ph_q = lb | append: 'q' | append: rb
+  assign ph_count = lb | append: 'count' | append: rb
+  assign ph_from = lb | append: 'from' | append: rb
+  assign ph_to = lb | append: 'to' | append: rb
+-%}
+<script>
+  window.BlissSettings = {
+    moneyFormat: {{ shop.money_format | strip_html | json }},
+    routes: {
+      root: {{ routes.root_url | json }},
+      cart: {{ routes.cart_url | json }},
+      checkout: '/checkout',
+      search: {{ routes.search_url | json }}
+    },
+    freeShippingThreshold: {{ settings.free_shipping_threshold | times: 100 }},
+    lowStockThreshold: {{ settings.low_stock_threshold }},
+    installments: {{ settings.installments }},
+    delivery: { min: {{ settings.delivery_min }}, max: {{ settings.delivery_max }}, skipDays: [5, 6] },
+    popup: { enabled: {{ settings.popup_enabled }}, delay: {{ settings.popup_delay }}, days: {{ settings.popup_days }} },
+    swatches: {% render 'swatch-map' %},
+    locale: {{ request.locale.iso_code | json }},
+    designMode: {{ request.design_mode }},
+    updateUrl: true
+  };
+  window.BlissStrings = {
+    error: {{ 'general.error' | t | json }},
+    sold_out: {{ 'products.sold_out' | t | json }},
+    sale: {{ 'products.sale' | t | json }},
+    quick_add: {{ 'products.quick_add' | t | json }},
+    choose_size: {{ 'products.choose_size' | t | json }},
+    wishlist_add: {{ 'wishlist.add' | t | json }},
+    wishlist_added: {{ 'wishlist.added' | t | json }},
+    wishlist_removed: {{ 'wishlist.removed' | t | json }},
+    wishlist_empty: {{ 'wishlist.empty' | t | json }},
+    remove: {{ 'cart.remove' | t | json }},
+    cart_empty: {{ 'cart.empty' | t | json }},
+    continue_shopping: {{ 'cart.continue_shopping' | t | json }},
+    subtotal: {{ 'cart.subtotal' | t | json }},
+    taxes_note: {{ 'cart.taxes_note' | t | json }},
+    checkout: {{ 'cart.checkout' | t | json }},
+    secure_note: {{ 'cart.secure_note' | t | json }},
+    free_ship_remaining: {{ 'cart.free_ship_remaining' | t: amount: ph_amount | json }},
+    free_ship_done: {{ 'cart.free_ship_done' | t | json }},
+    complete_look: {{ 'products.complete_look' | t | json }},
+    quantity: {{ 'cart.quantity' | t | json }},
+    decrease: {{ 'cart.decrease' | t | json }},
+    increase: {{ 'cart.increase' | t | json }},
+    products: {{ 'search.products' | t | json }},
+    no_results: {{ 'search.no_results' | t: q: ph_q | json }},
+    in_stock: {{ 'products.in_stock' | t | json }},
+    unavailable: {{ 'products.unavailable' | t | json }},
+    low_stock: {{ 'products.low_stock' | t: count: ph_count | json }},
+    add_to_cart: {{ 'products.add_to_cart' | t | json }},
+    installments: {{ 'products.installments' | t: count: ph_count, amount: ph_amount | json }},
+    delivery: {{ 'products.delivery' | t: from: ph_from, to: ph_to | json }},
+    notify_body: {{ 'products.notify_body' | t | json }},
+    notify_done: {{ 'products.notify_done' | t | json }},
+    copied: {{ 'general.copied' | t | json }},
+    view: {{ 'products.view' | t | json }},
+    wishlist_empty_title: {{ 'wishlist.empty_title' | t | json }}
+  };
+  window.BlissCart = {{ cart | json }};
+</script>

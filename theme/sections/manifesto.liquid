@@ -1,0 +1,43 @@
+{%- comment -%} Large statement whose words light up as you scroll, with small photo pills between phrases. {%- endcomment -%}
+<section class="manifesto">
+  <div class="wrap manifesto__inner">
+    <p class="eyebrow eyebrow--line">{{ section.settings.label | escape }}</p>
+    <div>
+      <p class="manifesto__text" data-words>
+        {%- for i in (1..4) -%}
+          {%- liquid
+            assign tkey = 'text_' | append: i
+            assign ikey = 'image_' | append: i
+            assign txt = section.settings[tkey]
+            assign pic = section.settings[ikey]
+          -%}
+          {%- if txt != blank %}{{ txt | escape }} {% endif -%}
+          {%- if pic != blank -%}<span class="pill-img">{{ pic | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}</span> {% endif -%}
+        {%- endfor -%}
+      </p>
+      {%- if section.settings.link_label != blank -%}
+        <div class="manifesto__foot"><a class="link-arrow" href="{{ section.settings.link | default: routes.root_url }}">{{ section.settings.link_label | escape }} {% render 'icon', name: 'arrow' %}</a></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Statement",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Small label", "default": "הפילוסופיה" },
+    { "type": "text", "id": "text_1", "label": "Text 1", "default": "בגדים" },
+    { "type": "image_picker", "id": "image_1", "label": "Photo after text 1" },
+    { "type": "text", "id": "text_2", "label": "Text 2", "default": "שמרגישים כמו נשימה עמוקה. גזרות מקסי זורמות, בדים רכים" },
+    { "type": "image_picker", "id": "image_2", "label": "Photo after text 2" },
+    { "type": "text", "id": "text_3", "label": "Text 3", "default": "ופלטה שקטה שמתאימה לבוקר, לעבודה" },
+    { "type": "image_picker", "id": "image_3", "label": "Photo after text 3" },
+    { "type": "text", "id": "text_4", "label": "Text 4", "default": "ולאירועים." },
+    { "type": "image_picker", "id": "image_4", "label": "Photo after text 4" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "הסיפור שלנו" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [ { "name": "Statement" } ]
+}
+{% endschema %}

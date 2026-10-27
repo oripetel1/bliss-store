@@ -1,0 +1,28 @@
+{%- comment -%}
+  Email sign-up with marketing consent. Creates a Shopify customer subscribed to email.
+  Accepts: id (unique form id), code (discount code shown after sign-up), tags (customer tags)
+{%- endcomment -%}
+{%- form 'customer', id: id, class: 'subscribe', data-subscribe: '' -%}
+  <input type="hidden" name="contact[tags]" value="{{ tags | default: 'newsletter' }}">
+  {%- if form.posted_successfully? -%}
+    <script>try { localStorage.setItem('bliss:subscribed', 'true'); } catch (e) {}</script>
+  {%- endif -%}
+  <div class="subscribe__row"{% if form.posted_successfully? %} hidden{% endif %}>
+    <label class="visually-hidden" for="{{ id }}-email">{{ 'newsletter.email' | t }}</label>
+    <input id="{{ id }}-email" type="email" name="contact[email]" placeholder="{{ 'newsletter.email' | t }}" autocomplete="email" required>
+    <button class="btn" type="submit">{{ 'newsletter.join' | t }}</button>
+  </div>
+  <label class="consent"{% if form.posted_successfully? %} hidden{% endif %}>
+    <input type="checkbox" id="{{ id }}-consent" required>
+    <span>{{ 'newsletter.consent' | t: shop: shop.name }}</span>
+  </label>
+  {%- if form.errors -%}
+    <p class="notice notice--error">{{ form.errors | default_errors }}</p>
+  {%- endif -%}
+{%- endform -%}
+<div class="form-success" data-subscribe-success{% unless form.posted_successfully? %} hidden{% endunless %}>
+  <p>{{ 'newsletter.success' | t }}</p>
+  {%- if code != blank -%}
+    <span class="code-chip">{{ code | escape }} <button type="button" class="btn btn--sm" data-copy="{{ code | escape }}">{{ 'general.copy' | t }}</button></span>
+  {%- endif -%}
+</div>
